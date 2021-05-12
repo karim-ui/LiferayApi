@@ -1,0 +1,101 @@
+/*
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    outline: none;
+    font-family: 'Poppins', sans-serif;
+}
+.mx-4{
+position: relative;
+left: -150px;
+}
+#mytitle{
+position: relative;
+left: 650px;
+    top: -200px;
+    width: 550px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.8em;
+    color: white;
+    box-shadow: 5px 5px 15px 5px #3D3D3D;
+    background: linear-gradient(to bottom, #485563, #29323c);
+    text-align: center;
+}
+body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: linear-gradient(to right, #7f7fd5, #86a8e7, #91eae4); !* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ *!
+}
+#logo
+{
+   position: relative;
+    left: -100px;
+    top: -300px;
+}
+#myform
+{
+    position: relative;
+    top:100px;
+}*/
+/* Latest compiled and minified CSS included as External Resource*/
+
+/* Optional theme */
+
+/*@import url('//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css');*/
+body {
+    margin-top:30px;
+
+}
+.stepwizard-step p {
+    margin-top: 0px;
+    color:#666;
+}
+.stepwizard-row {
+    display: table-row;
+}
+.stepwizard {
+    display: table;
+    width: 100%;
+    position: relative;
+}
+.stepwizard-step button[disabled] {
+    /*opacity: 1 !important;
+    filter: alpha(opacity=100) !important;*/
+}
+.stepwizard .btn.disabled, .stepwizard .btn[disabled], .stepwizard fieldset[disabled] .btn {
+    opacity:1 !important;
+    color:#bbb;
+}
+.stepwizard-row:before {
+    top: 14px;
+    bottom: 0;
+    position: absolute;
+    content:" ";
+    width: 100%;
+    height: 1px;
+    background-color: #ccc;
+    z-index: 0;
+}
+.stepwizard-step {
+    display: table-cell;
+    text-align: center;
+    position: relative;
+}
+.btn-circle {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 12px;
+    line-height: 1.428571429;
+    border-radius: 15px;
+}
+.container{
+    position:relative;
+    top:100px;
+    background: linear-gradient(to bottom, #485563, #29323c);
+
+}

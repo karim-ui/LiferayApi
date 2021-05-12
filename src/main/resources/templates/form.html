@@ -1,0 +1,268 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <title>Login page</title>
+</head>
+<body>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<div class="container">
+    <div class="stepwizard">
+        <div class="stepwizard-row setup-panel">
+            <div class="stepwizard-step col-xs-4">
+                <a href="#step-1" type="button" class="btn btn-success btn-circle">1</a>
+                <p><small>Informations generales</small></p>
+            </div>
+            <div class="stepwizard-step col-xs-4">
+                <a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
+                <p><small>Details</small></p>
+            </div>
+            <div class="stepwizard-step col-xs-4">
+                <a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>
+                <p><small>Pieces jointes</small></p>
+            </div>
+
+        </div>
+    </div>
+
+    <form role="form" action="/upload" method="post" enctype="multipart/form-data" >
+        <div class="panel panel-primary setup-content" id="step-1">
+            <div class="panel-heading">
+                <h3 class="panel-title">Informations generales</h3>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="control-label">Nom</label>
+                    <input type="text" class="form-control" name="clientName" id="clientname" placeholder="Entrez votre nom" required>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Prenom</label>
+                    <input type="text" class="form-control" name="clientPrenom" id="clientprenom"  placeholder="Entrez votre prenom" required>                </div>
+                <button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
+            </div>
+        </div>
+
+        <div class="panel panel-primary setup-content" id="step-2">
+            <div class="panel-heading">
+                <h3 class="panel-title">Details</h3>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="control-label">Ville</label>
+                    <input type="text" class="form-control" id="clientville" name="clientVille" required placeholder="Entrez votre ville">
+                 </div>
+                <div class="form-group">
+                    <label class="control-label">Date de naissance</label>
+                    <input type="date" class="form-control" name="clientDOB"  id="clientdob">
+                </div>
+                <button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
+            </div>
+        </div>
+
+        <div class="panel panel-primary setup-content" id="step-3">
+            <div class="panel-heading">
+                <h3 class="panel-title">Pieces jointes</h3>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="control-label">Etat</label>
+                    <select onchange="qualificationSelected(this.selectedIndex)" class="form-control" id="clientstate" name="clientState" required>
+                        <option selected  value="">Choose...</option>
+                        <option>Employee</option>
+                        <option>Etudiant</option>
+
+                    </select>
+                    <div class="invalid-feedback">
+                        veuillez choisir un etat
+                    </div>
+                    <div style="display: flex">
+                        <div id ="CIN"  style="visibility: hidden">
+                            <label   for="Cine"  >Carte nationale</label>
+                            <input type="file"  id="Cine" name="fichCin"/>
+                        </div>
+                        <div id="CV"  style="visibility: hidden">
+                            <label  for="cve"  >Curicculum vitae</label>
+                            <input type="file" id ="cve"  name="fichCv"/></div>
+                        <div id ="Certificat" style="visibility: hidden">
+                            <label  for="Certificat"  >Certificat scolaire</label>
+                            <input  type="file"  name="fichCertificat" id="Certificate" />
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-success pull-right" type="submit">Finish!</button>
+            </div>
+        </div>
+
+
+    </form>
+</div>
+<script>
+    $(document).ready(function () {
+
+        var navListItems = $('div.setup-panel div a'),
+            allWells = $('.setup-content'),
+            allNextBtn = $('.nextBtn');
+
+        allWells.hide();
+
+        navListItems.click(function (e) {
+            e.preventDefault();
+            var $target = $($(this).attr('href')),
+                $item = $(this);
+
+            if (!$item.hasClass('disabled')) {
+                navListItems.removeClass('btn-success').addClass('btn-default');
+                $item.addClass('btn-success');
+                allWells.hide();
+                $target.show();
+                $target.find('input:eq(0)').focus();
+            }
+        });
+
+        allNextBtn.click(function () {
+            var curStep = $(this).closest(".setup-content"),
+                curStepBtn = curStep.attr("id"),
+                nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
+                curInputs = curStep.find("input[type='text'],input[type='url']"),
+                isValid = true;
+
+            $(".form-group").removeClass("has-error");
+            for (var i = 0; i < curInputs.length; i++) {
+                if (!curInputs[i].validity.valid) {
+                    isValid = false;
+                    $(curInputs[i]).closest(".form-group").addClass("has-error");
+                }
+            }
+
+            if (isValid) nextStepWizard.removeAttr('disabled').trigger('click');
+        });
+
+        $('div.setup-panel div a.btn-success').trigger('click');
+    });
+</script>
+<!--<div id="mytitle" >Liferay DMS Api</div>-->
+<!--
+<img id="logo" src="images/copy_107797133.png" width="150px" height="150" >
+-->
+<!--<form id="myform" class="row g-3 needs-validation mx-4" action="/upload" method="post" enctype="multipart/form-data" novalidate>
+    <div class="col-md-4 mb-4">
+        <label for="clientname" class="form-label">Nom</label>
+        <input type="text" class="form-control" name="clientName" id="clientname" required>
+        <div class="valid-feedback">
+            Looks good!
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <label for="clientprenom" class="form-label">Prenom</label>
+        <input type="text" class="form-control" id="clientprenom"  name="clientPrenom" required>
+        <div class="invalid-feedback">
+         veuillez choisir un prenom        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <label for="clientcin" class="form-label">Cin</label>
+        <div class="input-group has-validation">
+            <input type="text" class="form-control" id="clientcin" name="clientCin" required>
+            <div class="invalid-feedback">
+                veuillez choisir un Cin
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <label for="clientville" class="form-label">City</label>
+        <input type="text" class="form-control" id="clientville" name="clientVille"required>
+        <div class="invalid-feedback">
+            veuillez saisir une ville
+        </div>
+    </div>
+    <div class="col-md-4" >
+        <label for="clientstate" class="form-label">Etat</label>
+        <select onchange="qualificationSelected(this.selectedIndex)" class="form-control" id="clientstate" name="clientState" required>
+            <option selected  value="">Choose...</option>
+            <option>Employee</option>
+            <option>Etudiant</option>
+
+        </select>
+        <div class="invalid-feedback">
+            veuillez choisir un etat
+        </div>
+        <div style="display: flex">
+            <div id ="CIN"  style="visibility: hidden">
+                <label   for="Cine"  >Carte nationale</label>
+                <input type="file"  id="Cine" name="fichCin"/>
+            </div>
+            <div id="CV"  style="visibility: hidden">
+                <label  for="cve"  >Curicculum vitae</label>
+                <input type="file" id ="cve"  name="fichCv"/></div>
+            <div id ="Certificat" style="visibility: hidden">
+                <label  for="Certificat"  >Certificat scolaire</label>
+                <input  type="file"  name="fichCertificat" id="Certificate" />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <label for="clientdob" class="form-label">Date de naissance</label>
+        <div>
+            <input type="date" class="form-control" name="clientDOB"  id="clientdob">
+        </div>
+        <div class="invalid-feedback">
+            veuillez inserer une date
+        </div>
+    </div>
+
+
+
+    <div class="col-12 mt-4">
+        <button class="btn btn-primary" type="submit">Submit form</button>
+    </div>
+</form>-->
+<script type="text/javascript">
+    function qualificationSelected(selectedIndex){
+        document.getElementById('CIN').style.visibility = (selectedIndex ==1) ? 'visible' : 'hidden';
+        document.getElementById('CIN').style.order = (selectedIndex ==1) ? '1' : '30';
+        document.getElementById('Certificat').style.visibility = (selectedIndex == 2) ? 'visible' : 'hidden';
+        document.getElementById('CV').style.visibility = (selectedIndex == 1) ? 'visible' : 'hidden';
+        document.getElementById('Certificat').style.order = (selectedIndex ==2) ? '1' : '30';
+        document.getElementById('CV').style.order = (selectedIndex ==1) ? '1' : '30';
+    }
+</script>
+
+<script>
+    (function () {
+        'use strict'
+
+        var forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>
+
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.x1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>
